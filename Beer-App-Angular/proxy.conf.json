@@ -1,0 +1,8 @@
+{
+  "/beers": {
+    "target": "https://api.punkapi.com/v2",
+    "secure": false,
+
+    "changeOrigin": true
+  }
+}

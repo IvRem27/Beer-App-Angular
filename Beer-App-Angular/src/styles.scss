@@ -1,0 +1,11 @@
+@import 'node_modules/angular-material-css-vars/src/lib/_main.scss';
+
+$mat-css-dark-theme-selector: '.isDarkTheme';
+$mat-css-light-theme-selector: '.isLightTheme';
+
+@include init-material-css-vars() {
+};
+
+body {
+  background-color: #e7e7e7;
+}

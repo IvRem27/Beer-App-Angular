@@ -1,0 +1,68 @@
+<!-- Toolbar -->
+<div class="toolbar" role="banner">
+  <img
+    height="90"
+    alt="Logo"
+    src="assets/logo.jpg"
+  />
+</div>
+
+<div class="content" role="main">
+
+  <mat-card id="formCard">
+    <form [formGroup]="searchForm">
+      <mat-form-field appearance="outline" class="filterElement">
+        <mat-label>Search</mat-label>
+        <input matInput placeholder="Search beers by name" formControlName="search">
+      </mat-form-field>
+
+      <mat-slider [min]="0" [max]="56" step="0.1" discrete [displayWith]="formatAbvLabel" class="filterElement">
+        <mat-label>ABV</mat-label>
+        <input matSliderStartThumb formControlName="abvMin">
+        <input matSliderEndThumb formControlName="abvMax">
+      </mat-slider>
+
+      <mat-form-field appearance="fill" class="filterElement">
+        <mat-label>Sort</mat-label>
+        <mat-select formControlName="sortChoice">
+
+          <mat-option *ngFor="let choice of sortChoices" [value]="choice.value">
+            {{ choice.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-slide-toggle color="primary" formControlName="favorites" class="filterElement">Favorites</mat-slide-toggle>
+
+    </form>
+  </mat-card>
+
+  <div *ngFor="let beer of beers | searchFilter: searchForm.value.search:searchForm.value.abvMin:searchForm.value.abvMax:searchForm.value.sortChoice:searchForm.value.favorites"
+       class="beer">
+
+    <mat-card>
+
+      <mat-card-header>
+        <mat-card-title>{{ beer.name }}</mat-card-title>
+        <mat-card-subtitle>ABV: {{ beer.abv }}%</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <img alt="{{ beer.name }}" src="{{ beer.image_url }}"/>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button (click)="openDialog(beer.name, beer.description)">Details</button>
+        <mat-chip-listbox>
+          <mat-chip-option selected="{{ isFavorite(beer.id) }}" color="primary" (selectionChange)="changeFavorite($event, beer.id)">Favorite</mat-chip-option>
+        </mat-chip-listbox>
+
+      </mat-card-actions>
+
+    </mat-card>
+
+  </div>
+
+</div>
+
+<router-outlet></router-outlet>
